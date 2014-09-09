@@ -26,6 +26,10 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 gem 'redis-objects'
 
+gem 'sidekiq'
+gem 'sidekiq-middleware'
+gem 'sinatra', '>= 1.3.0', :require => nil
+
 # form builder
 gem 'simple_form'
 

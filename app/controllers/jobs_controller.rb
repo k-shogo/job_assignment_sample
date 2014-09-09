@@ -1,5 +1,11 @@
 class JobsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_job, only: [:show, :edit, :update, :destroy]
+
+  def get_job
+    @job = Job.get current_user.id
+    redirect_to jobs_path, notice: 'no job' unless @job
+  end
 
   # GET /jobs
   # GET /jobs.json
@@ -41,12 +47,16 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1.json
   def update
     respond_to do |format|
-      if @job.update(job_params)
-        format.html { redirect_to @job, notice: 'Job was successfully updated.' }
-        format.json { render :show, status: :ok, location: @job }
+      if @job.permit_user?(current_user.id)
+        if @job.update(job_params.merge(finished_at: Time.current))
+          format.html { redirect_to @job, notice: 'Job was successfully updated.' }
+          format.json { render :show, status: :ok, location: @job }
+        else
+          format.html { render :edit }
+          format.json { render json: @job.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @job.errors, status: :unprocessable_entity }
+        format.html { redirect_to jobs_path, alert: 'time out' }
       end
     end
   end

@@ -5,7 +5,7 @@ class CreateJobs < ActiveRecord::Migration
       t.string     :title
       t.text       :description
       t.integer    :lock_version, default: 0
-      t.datetime   :done
+      t.datetime   :finished_at
 
       t.timestamps
     end

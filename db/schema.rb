@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20140908082748) do
     t.string   "title"
     t.text     "description"
     t.integer  "lock_version", default: 0
-    t.datetime "done"
+    t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
